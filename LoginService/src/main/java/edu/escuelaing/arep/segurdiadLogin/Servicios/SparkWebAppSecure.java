@@ -86,7 +86,6 @@ public class SparkWebAppSecure{
         }else{
             boolean auth=request.session().attribute("AUTHORIZED");
             if(!auth) {
-                System.out.println("Entro en Cuatro");
                 halt(401, "<h1> 401 No esta autorizado para solicitar este recurso. </h1>");
             }};
     }

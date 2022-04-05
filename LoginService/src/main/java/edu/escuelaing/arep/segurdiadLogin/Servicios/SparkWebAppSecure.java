@@ -31,6 +31,11 @@ public class SparkWebAppSecure{
         staticHandler.configure("/");
         before((request, response) -> staticHandler.consume(request.raw(), response.raw()));
         post("/login",SparkWebAppSecure::manipularLogin);
+        get("/LoginVerificado/servicio",SparkWebAppSecure::getServicioHora);
+    }
+
+    private static Object getServicioHora(Request request, Response response) throws IOException {
+        return SecureUrlReader.getService();
     }
 
     private static Object manipularLogin(Request request, Response response) {
@@ -38,7 +43,6 @@ public class SparkWebAppSecure{
         Gson gson = new Gson();      //Creamos el gson
         User user = gson.fromJson(request.body(),User.class); //Pasamos de tipo GSON a Objet tipo User
         if(passwordHash.convertirSHA256(user.getPassword()).equals(usuarios.LoadPassByUser(user.getUsuario()))){
-            System.out.println("Entro hash");
             request.session().attribute("usr",user.getUsuario());
             request.session().attribute("AUTHORIZED",true);
             response.redirect("LoginVerificado/UsuarioLogin.html");
@@ -52,12 +56,10 @@ public class SparkWebAppSecure{
     private static void validarIngresoLogin(Request request, Response response) {
         request.session(true);
         if (request.session().isNew()) {
-            System.out.println("Entro en Uno");
             request.session().attribute("AUTHORIZED", false);
         }
         boolean auth = request.session().attribute("AUTHORIZED");
         if (auth) {
-            System.out.println("Entro en Dos");
             response.redirect("/LoginVerificado/UsuarioLogin.html");
         }
     }
@@ -67,11 +69,9 @@ public class SparkWebAppSecure{
         Session session = request.session();
         boolean newSession = session.isNew();
         if(newSession){
-            System.out.println("Entro en tres");
             request.session().attribute("AUTHORIZED",false);
         }else{
             boolean auth=request.session().attribute("AUTHORIZED");
-            System.out.println("Entro en Cuatro:" + auth);
             if(!auth) {
                 System.out.println("Entro en Cuatro");
                 halt(401, "<h1> 401 No esta autorizado para solicitar este recurso. </h1>");

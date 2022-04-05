@@ -1,6 +1,4 @@
 var Servicios = (function () {
-
-    var url="https://localhost:35000";
     function login(usermameid,userPasswordid){
         const user={usuario:usermameid,password:userPasswordid} //Creando Formato JSon, El nombre tiene que ser igual que en el Usuario
         axios.post("/login",user).then(res=>{ //Llamar la instancia Login para validar datos
@@ -15,6 +13,6 @@ var Servicios = (function () {
     }
 
     return {
-        login:login,
+        login:login
     };
 })();

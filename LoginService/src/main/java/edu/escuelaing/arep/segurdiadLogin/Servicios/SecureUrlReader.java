@@ -15,7 +15,7 @@ public class SecureUrlReader {
 
     public static void init() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, KeyManagementException {
         // Create a file and a password representation
-        File trustStoreFile = new File("keystores/myTrustStore");
+        File trustStoreFile = new File("keystores/myTrustStoreservicio");
         char[] trustStorePassword = "123456".toCharArray();
         // Load the trust store, the default type is "pkcs12", the alternative is "jks"
         KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());

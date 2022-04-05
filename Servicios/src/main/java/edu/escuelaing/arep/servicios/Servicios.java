@@ -27,14 +27,14 @@ public class Servicios
         if (System.getenv("KEYSTORE") != null){
             return System.getenv("KEYSTORE");
         }
-        return "keystores/serviciostore.p12";
+        return "keystores/ecikeystoreservicio.p12";
     }
 
     private static String getKeyTrustStore() {
         if (System.getenv("KEYSTORE") != null){
             return System.getenv("KEYSTORE");
         }
-        return "keystores/myTrustStore";
+        return "keystores/myTrustStoreServicio";
     }
 
 

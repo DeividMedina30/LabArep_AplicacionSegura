@@ -32,6 +32,13 @@ public class SparkWebAppSecure{
         before((request, response) -> staticHandler.consume(request.raw(), response.raw()));
         post("/login",SparkWebAppSecure::manipularLogin);
         get("/LoginVerificado/servicio",SparkWebAppSecure::getServicioHora);
+        post("/cerrarSeccion",SparkWebAppSecure::CerrarSeccion);
+    }
+
+    private static Object CerrarSeccion(Request request, Response response) {
+        request.session(true);
+        request.session().attribute("AUTHORIZED", false);
+        return "Se cerro correctamente la sección";
     }
 
     private static Object getServicioHora(Request request, Response response) throws IOException {

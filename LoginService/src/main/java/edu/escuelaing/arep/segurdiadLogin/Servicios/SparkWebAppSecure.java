@@ -21,6 +21,7 @@ import spark.staticfiles.StaticFilesConfiguration;
 public class SparkWebAppSecure{
     private static PasswordHash passwordHash = new PasswordHash();
     private static UserDAO usuarios = new UserDAO();
+    private static User usuario;
     public static void main( String[] args ) throws CertificateException, KeyStoreException, IOException, NoSuchAlgorithmException, KeyManagementException {
         secure(getKeyStore(), "123456", null, null);
         SecureUrlReader.init();
@@ -32,7 +33,12 @@ public class SparkWebAppSecure{
         before((request, response) -> staticHandler.consume(request.raw(), response.raw()));
         post("/login",SparkWebAppSecure::manipularLogin);
         get("/LoginVerificado/servicio",SparkWebAppSecure::getServicioHora);
+        get("/LoginVerificado/getNameUser",SparkWebAppSecure::getnameUser);
         post("/cerrarSeccion",SparkWebAppSecure::CerrarSeccion);
+    }
+
+    private static Object getnameUser(Request request, Response response) {
+        return usuario.getUsuario();
     }
 
     private static Object CerrarSeccion(Request request, Response response) {
@@ -48,9 +54,9 @@ public class SparkWebAppSecure{
     private static Object manipularLogin(Request request, Response response) {
         request.session(true); //Creamos la session
         Gson gson = new Gson();      //Creamos el gson
-        User user = gson.fromJson(request.body(),User.class); //Pasamos de tipo GSON a Objet tipo User
-        if(passwordHash.convertirSHA256(user.getPassword()).equals(usuarios.LoadPassByUser(user.getUsuario()))){
-            request.session().attribute("usr",user.getUsuario());
+        usuario = gson.fromJson(request.body(),User.class); //Pasamos de tipo GSON a Objet tipo User
+        if(passwordHash.convertirSHA256(usuario.getPassword()).equals(usuarios.LoadPassByUser(usuario.getUsuario()))){
+            request.session().attribute("usr",usuario.getUsuario());
             request.session().attribute("AUTHORIZED",true);
             response.redirect("LoginVerificado/UsuarioLogin.html");
         }

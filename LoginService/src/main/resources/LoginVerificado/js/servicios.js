@@ -7,12 +7,18 @@ var obtenerServicio = (function () {
     function salir(){
         axios.post("/cerrarSeccion").then(res=>{
             if(res.data==="Se cerro correctamente la sección") {
-                window.location.href = "/";
+                window.location.href = '/';
             }
+        })
+    }
+    function obtenerUsuario(){
+        axios.get("/LoginVerificado/getNameUser").then(res=>{
+            document.getElementById("nombreUser").innerHTML = res.data;
         })
     }
     return {
         obtenerFecha:obtenerFecha,
-        salir:salir
+        salir:salir,
+        obtenerUsuario:obtenerUsuario
     };
 })();

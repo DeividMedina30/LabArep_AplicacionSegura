@@ -34,7 +34,7 @@ public class Servicios
         if (System.getenv("KEYSTORE") != null){
             return System.getenv("KEYSTORE");
         }
-        return "keystores/myTrustStoreServicio";
+        return "keystores/myTrustStore";
     }
 
 

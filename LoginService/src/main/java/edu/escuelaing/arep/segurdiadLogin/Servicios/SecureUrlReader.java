@@ -31,7 +31,7 @@ public class SecureUrlReader {
     }
 
     public static String getService () throws IOException {
-        String site = "https://localhost:35001/servicio";
+        String site = "https://ec2-3-88-181-184.compute-1.amazonaws.com:35001/servicio";
         URL url = new URL(site);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
